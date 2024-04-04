@@ -5,13 +5,14 @@ const connectDB = require("./config/db");
 const auth = require("./routes/auth");
 const cookieParser = require("cookie-parser");
 const appointments = require("./routes/appointments");
-const cors = require("cors");
 const mongoSanitize = require("express-mongo-sanitize");
 const helmet = require("helmet");
 const { xss } = require("express-xss-sanitizer");
 const rateLimit = require("express-rate-limit");
 const hpp = require("hpp");
 const cors = require("cors");
+const swaggerJsdoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
 
 dotenv.config({ path: "./config/config.env" });
 connectDB();
@@ -42,6 +43,21 @@ app.use(limiter);
 app.use("/api/v1/hospitals", hospitals);
 app.use("/api/v1/auth", auth);
 app.use("/api/v1/appointments", appointments);
+
+const swaggerOptions = {
+	swaggerDefinition: {
+		openapi: "3.0.0",
+		info: {
+			title: "Hospital API",
+			version: "1.0.0",
+			description: "Hospital API Information",
+		},
+	},
+	apis: ["./routes/*.js"],
+};
+
+const swaggerDocs = swaggerJsdoc(swaggerOptions);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 const PORT = process.env.PORT || 5000;
 
