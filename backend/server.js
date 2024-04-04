@@ -6,6 +6,7 @@ const auth = require("./routes/auth");
 const cookieParser = require("cookie-parser");
 const appointments = require("./routes/appointments");
 const cors = require("cors");
+const mongoSanitize = require("express-mongo-sanitize");
 
 dotenv.config({ path: "./config/config.env" });
 connectDB();
@@ -21,6 +22,7 @@ app.use(
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(mongoSanitize());
 
 app.use("/api/v1/hospitals", hospitals);
 app.use("/api/v1/auth", auth);
