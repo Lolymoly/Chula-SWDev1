@@ -11,6 +11,7 @@ const helmet = require("helmet");
 const { xss } = require("express-xss-sanitizer");
 const rateLimit = require("express-rate-limit");
 const hpp = require("hpp");
+const cors = require("cors");
 
 dotenv.config({ path: "./config/config.env" });
 connectDB();
@@ -30,6 +31,7 @@ app.use(mongoSanitize());
 app.use(helmet());
 app.use(xss());
 app.use(hpp());
+app.use(cors());
 
 const limiter = rateLimit({
 	windowMs: 10 * 60 * 1000, // 10 minutes
