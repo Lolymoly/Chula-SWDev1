@@ -45,17 +45,21 @@ app.use("/api/v1/auth", auth);
 app.use("/api/v1/appointments", appointments);
 
 const swaggerOptions = {
-	swaggerDefinition: {
+	definition: {
 		openapi: "3.0.0",
 		info: {
 			title: "Hospital API",
 			version: "1.0.0",
 			description: "Hospital API Information",
 		},
+		servers: [
+			{
+				url: "http://localhost:5000/api/v1",
+			},
+		],
 	},
 	apis: ["./routes/*.js"],
 };
-
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
